@@ -60,7 +60,7 @@ class Util {
         foreach (self::getCommands() as $command) {
             if ($command['UrlSegment'] === $urlSegment) {
                 $instance = singleton($command['Class']);
-                $instance->setRequest = $request;
+                $instance->setRequest($request);
 
                 return $instance;
             }

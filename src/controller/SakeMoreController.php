@@ -33,7 +33,7 @@ class SakeMoreController extends Controller {
         $commandUrlSegment = $args[0];
 
         // Try to get the related command and execute it
-        if ($command = Util::getCommandInstance($commandUrlSegment)) {
+        if ($command = Util::getCommandInstance($commandUrlSegment, $request)) {
             try {
                 $command->run();
             } catch (SakeMoreException $e) {
