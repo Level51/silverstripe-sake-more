@@ -12,6 +12,8 @@ Hooks into the default DevelopmentAdmin providing commands/tools under the `sake
 ### Extend with custom commands
 Due to the modular setup adding custom commands is as easy as creating a new class extending the abstract `Level51\SakeMore\Command` class. Each sub class will automatically show up in the list of available commands.
 
+It's also possible to extend the abstract `Level51\SakeMore\MultiCommand` class if your command provides more than one action. In that case the route will be like `sake dev/more YOUR_COMMAND YOUR_SUBCOMMAND`.
+
 ## Requirements
 - SilverStripe ^4.0
 - PHP >= 7.0

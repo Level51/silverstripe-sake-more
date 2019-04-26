@@ -35,11 +35,15 @@ class Util {
 
         foreach ($commandClasses as $commandClass) {
             try {
+                // Skip abstract classes
+                $reflection = new \ReflectionClass($commandClass);
+                if ($reflection->isAbstract()) continue;
+
                 $command = singleton($commandClass);
                 $availableCommands[] = [
-                    'UrlSegment'  => $command->getUrlSegment(),
-                    'Description' => $command->getDescription(),
-                    'Class'       => $commandClass
+                    'urlSegment'  => $command->getUrlSegment(),
+                    'description' => $command->getDescription(),
+                    'class'       => $commandClass
                 ];
             } catch (\Exception $e) {
             }
@@ -58,8 +62,8 @@ class Util {
      */
     public static function getCommandInstance($urlSegment, $request = null) {
         foreach (self::getCommands() as $command) {
-            if ($command['UrlSegment'] === $urlSegment) {
-                $instance = singleton($command['Class']);
+            if ($command['urlSegment'] === $urlSegment) {
+                $instance = singleton($command['class']);
                 $instance->setRequest($request);
 
                 return $instance;
