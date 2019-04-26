@@ -72,4 +72,28 @@ class Util {
 
         return null;
     }
+
+    /**
+     * Checks for Windows OS.
+     * Taken from: https://stackoverflow.com/a/5879078
+     *
+     * @return bool
+     */
+    public static function isWIN() {
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    }
+
+    /**
+     * Checks if the given (Shell) command exists.
+     * Taken from: https://stackoverflow.com/a/12425039
+     *
+     * @param string $cmd
+     *
+     * @return bool
+     */
+    public static function shellCommandExists($cmd) {
+        $return = shell_exec(sprintf("which %s", escapeshellarg($cmd)));
+
+        return !empty($return);
+    }
 }

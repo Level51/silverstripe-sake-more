@@ -80,6 +80,20 @@ abstract class Command {
     }
 
     /**
+     * Check if given flag is set on the request.
+     *
+     * @param string $flag The flag to check, either in "--flag" format or just as "flag"
+     *
+     * @return bool
+     */
+    public function hasFlag($flag) {
+        if (substr($flag, 0, 2) !== '--')
+            $flag = '--' . $flag;
+
+        return in_array($flag, $this->getFlags());
+    }
+
+    /**
      * Defines the url segment under which this command is callable.
      *
      * @return string
