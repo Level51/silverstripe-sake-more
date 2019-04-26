@@ -1,0 +1,9 @@
+---
+Name: sakemore-config
+---
+SilverStripe\Dev\DevelopmentAdmin:
+  registered_controllers:
+    more:
+      controller: Level51\SakeMore\SakeMoreController
+      links:
+        more: 'List SakeMore commands'
