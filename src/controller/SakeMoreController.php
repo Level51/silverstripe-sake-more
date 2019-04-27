@@ -54,7 +54,7 @@ class SakeMoreController extends Controller {
         echo 'Available commands:' . PHP_EOL;
 
         foreach (Util::getCommands() as $command) {
-            echo '    sake dev/more ' . $command['UrlSegment'] . ': ' . $command['Description'] . PHP_EOL;
+            echo '    sake dev/more ' . $command['urlSegment'] . ': ' . $command['description'] . PHP_EOL;
         }
 
         echo PHP_EOL;

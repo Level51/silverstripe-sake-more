@@ -7,6 +7,7 @@ Hooks into the default DevelopmentAdmin providing commands/tools under the `sake
 - without specific command: Show info/help including a list of all available commands
 - **console**: Starts a interactive PHP shell using [PsySH](https://psysh.org/)
 - **sql**: Connects to the local mysql client using the default connection details
+- **snapshot**: Handles system snapshots by utilizing [SSPak](http://silverstripe.github.io/sspak/)
 - ... more to come
 
 ### Extend with custom commands
@@ -17,6 +18,7 @@ It's also possible to extend the abstract `Level51\SakeMore\MultiCommand` class 
 ## Requirements
 - SilverStripe ^4.0
 - PHP >= 7.0
+- [SSPak](http://silverstripe.github.io/sspak/) for the `snapshot` command
 
 ## Maintainer
 - Level51 <hallo@lvl51.de>

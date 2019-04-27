@@ -2,6 +2,8 @@
 
 namespace Level51\SakeMore;
 
+use SilverStripe\Control\Director;
+
 /**
  * Command wrapping around SSPAK to save or load snapshots.
  *
@@ -26,7 +28,7 @@ class Snapshot extends MultiCommand {
      * @return string
      */
     public function getDescription() {
-        return 'Test implementation snapshot multi command';
+        return 'Handles system snapshots. Utilizes SSPak.';
     }
 
     /**
@@ -50,16 +52,81 @@ class Snapshot extends MultiCommand {
     }
 
     /**
-     * TODO implement load function
+     * Loads an existing snapshot.
      */
     public function load() {
-        echo "\nTODO implement load function\n";
+        if (!$this->environmentIsValid()) return;
+
+        // Check for source
+        if (!isset($_GET['src']) ||
+            !file_exists($_GET['src'])) {
+            echo "You need to specify a valid .sspak file to load as \"src\" parameter (absolute path).";
+
+            return;
+        }
+
+        // Remove current assets folder
+        $command[] = 'rm -rf public/assets;';
+
+        // Build sspak load command
+        $command[] = 'sspak';
+        $src = $_GET['src'];
+        $command[] = "load {$src} " . Director::baseFolder();
+
+        Util::runCLI(implode(' ', $command));
+
+        echo "The snapshot \"" . array_reverse(explode(DIRECTORY_SEPARATOR, $src))[0] . "\" was loaded. You might have to clear the caches.";
     }
 
     /**
-     * TODO implement save function
+     * Saves a snapshot to a .sspak file.
      */
     public function save() {
-        echo "\nTODO implement save function\n";
+        if (!$this->environmentIsValid()) return;
+
+        $rootFolder = Director::baseFolder();
+        $command = ['sspak save'];
+
+        // Prepare file name and save location
+        $folderName = array_reverse(explode(DIRECTORY_SEPARATOR, $rootFolder))[0];
+        $projectName = $GLOBALS['project'];
+        $snapshotName = implode('_', array(
+            $folderName,
+            $projectName,
+            date('Y-m-d-H-i-s')
+        ));
+        $saveLocation = implode(DIRECTORY_SEPARATOR, array(
+            sys_get_temp_dir(),
+            $snapshotName
+        ));
+        if ($this->hasFlag('db')) {
+            $command[] = '--db';
+        }
+
+        $command[] = "{$rootFolder} {$saveLocation}.sspak";
+        Util::runCLI(implode(' ', $command));
+
+        echo "The snapshot was saved to \"{$saveLocation}.sspak\".";
+    }
+
+    /**
+     * Checks if the snapshot cmd can be run on the current environment.
+     *
+     * @return bool
+     */
+    private function environmentIsValid() {
+        if (Util::isWIN()) {
+            echo 'The "snapshot" command is only available for Unix-based OS.';
+
+            return false;
+        }
+
+        if (!Util::shellCommandExists('sspak')) {
+            echo '"sspak" is not available. Check "https://github.com/silverstripe/sspak#installation" for an installation guide.';
+
+            return false;
+        }
+
+        return true;
     }
 }
