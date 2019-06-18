@@ -7,8 +7,6 @@ use SilverStripe\Control\Director;
 /**
  * Command wrapping around SSPAK to save or load snapshots.
  *
- * TODO actual implementation, just the skeleton yet
- *
  * @package Level51\SakeMore
  */
 class Snapshot extends MultiCommand {
