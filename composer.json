@@ -2,12 +2,12 @@
   "name": "level51/silverstripe-sake-more",
   "version": "1.0.0",
   "time": "2019-06-18",
-  "description": "SakeMore module for SilverStripe 4",
+  "description": "SakeMore module for SilverStripe 3",
   "keywords": [
     "silverstripe",
     "psysh"
   ],
-  "type": "silverstripe-vendormodule",
+  "type": "silverstripe-module",
   "license": "MIT",
   "authors": [
     {
