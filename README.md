@@ -1,5 +1,5 @@
 # SilverStripe SakeMore
-Module for SilverStripe 4 providing additional command line tools.
+Module for SilverStripe 4 providing additional command line tools. Check out `develop-ss3` branch for SilverStripe 3 support.
 
 Hooks into the default DevelopmentAdmin providing commands/tools under the `sake dev/more COMMAND_URL_SEGMENT` route.
 
