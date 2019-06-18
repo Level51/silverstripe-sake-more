@@ -1,7 +1,7 @@
 ---
 Name: sakemore-config
 ---
-SilverStripe\Dev\DevelopmentAdmin:
+DevelopmentAdmin:
   registered_controllers:
     more:
       controller: Level51\SakeMore\SakeMoreController

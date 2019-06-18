@@ -2,7 +2,7 @@
 
 namespace Level51\SakeMore;
 
-use SilverStripe\Control\HTTPRequest;
+use SS_HttpRequest;
 
 /**
  * Base class for each SakeMore command.
@@ -13,19 +13,19 @@ use SilverStripe\Control\HTTPRequest;
  */
 abstract class Command {
     /**
-     * @var HTTPRequest
+     * @var SS_HttpRequest
      */
     private $request;
 
     /**
-     * @param HTTPRequest $request
+     * @param SS_HttpRequest $request
      */
     public function setRequest($request) {
         $this->request = $request;
     }
 
     /**
-     * @return HTTPRequest
+     * @return SS_HttpRequest
      */
     public function getRequest() {
         return $this->request;

@@ -2,8 +2,6 @@
 
 namespace Level51\SakeMore;
 
-use SilverStripe\ORM\DB;
-
 /**
  * Connect to the local MySQL client.
  *
@@ -37,14 +35,14 @@ class SQL extends Command {
      */
     public function run() {
         // Get the db connection config
-        $conf = DB::getConfig();
+        global $databaseConfig;
 
         // Check server/host
-        if (!in_array($conf['server'], ['localhost', '127.0.0.1']))
+        if (!in_array($databaseConfig['server'], ['localhost', '127.0.0.1']))
             throw new SakeMoreException('The SakeMore SQL command supports only connections to localhost / 127.0.0.1');
 
         // Setup command
-        $cmd = sprintf('mysql -u%s -p%s %s', $conf['username'], $conf['password'], $conf['database']);
+        $cmd = sprintf('mysql -u%s -p%s %s', $databaseConfig['username'], $databaseConfig['password'], $databaseConfig['database']);
 
         // Execute
         $process = proc_open(

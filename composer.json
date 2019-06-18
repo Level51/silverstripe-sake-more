@@ -17,8 +17,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "silverstripe/framework": "^4.0",
-    "silverstripe/vendor-plugin": "^1",
+    "silverstripe/framework": "^3.6",
     "psy/psysh": "^0.9.9"
   },
   "minimum-stability": "dev",

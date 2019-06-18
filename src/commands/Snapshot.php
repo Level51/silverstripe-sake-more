@@ -2,7 +2,7 @@
 
 namespace Level51\SakeMore;
 
-use SilverStripe\Control\Director;
+use Director;
 
 /**
  * Command wrapping around SSPAK to save or load snapshots.

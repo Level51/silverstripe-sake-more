@@ -2,8 +2,8 @@
 
 namespace Level51\SakeMore;
 
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Core\ClassInfo;
+use SS_HttpRequest;
+use ClassInfo;
 
 /**
  * Class providing various util methods.
@@ -55,8 +55,8 @@ class Util {
     /**
      * Get a command instance for the given url segment.
      *
-     * @param string      $urlSegment Of the searched/requested command
-     * @param HTTPRequest $request    The current request
+     * @param string         $urlSegment Of the searched/requested command
+     * @param SS_HttpRequest $request    The current request
      *
      * @return Command|null
      */

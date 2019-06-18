@@ -2,9 +2,8 @@
 
 namespace Level51\SakeMore;
 
-use SebastianBergmann\CodeCoverage\Report\PHP;
-use SilverStripe\Control\Controller;
-use SilverStripe\Control\Director;
+use Controller;
+use Director;
 
 /**
  * Base class for additional development tools.
