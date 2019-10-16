@@ -31,18 +31,23 @@ class SQL extends Command {
      * Connect to mysql interactive shell.
      *
      * @return string
-     * @throws SakeMoreException
      */
     public function run() {
         // Get the db connection config
         global $databaseConfig;
 
-        // Check server/host
-        if (!in_array($databaseConfig['server'], ['localhost', '127.0.0.1']))
-            throw new SakeMoreException('The SakeMore SQL command supports only connections to localhost / 127.0.0.1');
+        // Start command setup
+        $cmd = sprintf('mysql -u%s -p%s', $databaseConfig['username'], $databaseConfig['password']);
 
-        // Setup command
-        $cmd = sprintf('mysql -u%s -p%s %s', $databaseConfig['username'], $databaseConfig['password'], $databaseConfig['database']);
+        // Check server/host, add database name and host if necessary (non localhost)
+        if (in_array($databaseConfig['server'], ['localhost', '127.0.0.1']))
+            $cmd .= sprintf(' %s', $databaseConfig['database']);
+        else
+            $cmd .= sprintf(' -h%s -D%s', $databaseConfig['server'], $databaseConfig['database']);
+
+        // Add port if set
+        if ($databaseConfig['port'])
+            $cmd .= sprintf(' -P%s', $databaseConfig['port']);
 
         // Execute
         $process = proc_open(
