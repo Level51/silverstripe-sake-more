@@ -39,12 +39,18 @@ class SQL extends Command {
         // Get the db connection config
         $conf = DB::getConfig();
 
-        // Check server/host
-        if (!in_array($conf['server'], ['localhost', '127.0.0.1']))
-            throw new SakeMoreException('The SakeMore SQL command supports only connections to localhost / 127.0.0.1');
+        // Start command setup
+        $cmd = sprintf('mysql -u%s -p%s', $conf['username'], $conf['password']);
 
-        // Setup command
-        $cmd = sprintf('mysql -u%s -p%s %s', $conf['username'], $conf['password'], $conf['database']);
+        // Check server/host, add database name and host if necessary (non localhost)
+        if (in_array($conf['server'], ['localhost', '127.0.0.1']))
+            $cmd .= sprintf(' %s', $conf['database']);
+        else
+            $cmd .= sprintf(' -h%s -D%s', $conf['server'], $conf['database']);
+
+        // Add port if set
+        if ($conf['port'])
+            $cmd .= sprintf(' -P%s', $conf['port']);
 
         // Execute
         $process = proc_open(
