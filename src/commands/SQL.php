@@ -49,7 +49,7 @@ class SQL extends Command {
             $cmd .= sprintf(' -h%s -D%s', $conf['server'], $conf['database']);
 
         // Add port if set
-        if ($conf['port'])
+        if (isset($conf['port']))
             $cmd .= sprintf(' -P%s', $conf['port']);
 
         // Execute
