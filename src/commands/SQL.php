@@ -40,13 +40,13 @@ class SQL extends Command {
         $conf = DB::getConfig();
 
         // Start command setup
-        $cmd = sprintf('mysql -u%s -p%s', $conf['username'], $conf['password']);
+        $cmd = sprintf('mysql -u"%s" -p"%s"', $conf['username'], $conf['password']);
 
         // Check server/host, add database name and host if necessary (non localhost)
         if (in_array($conf['server'], ['localhost', '127.0.0.1']))
             $cmd .= sprintf(' %s', $conf['database']);
         else
-            $cmd .= sprintf(' -h%s -D%s', $conf['server'], $conf['database']);
+            $cmd .= sprintf(' -h"%s" -D"%s"', $conf['server'], $conf['database']);
 
         // Add port if set
         if (isset($conf['port']))
