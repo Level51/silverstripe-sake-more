@@ -1,5 +1,5 @@
 # SilverStripe SakeMore
-Module for SilverStripe 4 providing additional command line tools. Check out `develop-ss3` branch for SilverStripe 3 support.
+Module for SilverStripe 5 providing additional command line tools. Check out `1.X` releases for SilverStripe 4 support and `develop-ss3` branch for SilverStripe 3 support.
 
 Hooks into the default DevelopmentAdmin providing commands/tools under the `sake dev/more COMMAND_URL_SEGMENT` route.
 
@@ -16,8 +16,8 @@ Due to the modular setup adding custom commands is as easy as creating a new cla
 It's also possible to extend the abstract `Level51\SakeMore\MultiCommand` class if your command provides more than one action. In that case the route will be like `sake dev/more YOUR_COMMAND YOUR_SUBCOMMAND`.
 
 ## Requirements
-- SilverStripe ^4.0
-- PHP >= 7.0
+- SilverStripe ^5.0
+- PHP >= 8.0
 - [SSPak](http://silverstripe.github.io/sspak/) for the `snapshot` command
 
 ## Maintainer
