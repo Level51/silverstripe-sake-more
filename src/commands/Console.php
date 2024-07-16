@@ -19,7 +19,7 @@ class Console extends Command
      *
      * @return string
      */
-    public function getUrlSegment()
+    public function getUrlSegment(): string
     {
         return 'console';
     }
@@ -29,7 +29,7 @@ class Console extends Command
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Enter PsySH console';
     }
@@ -37,7 +37,7 @@ class Console extends Command
     /**
      * Start PsySH shell.
      */
-    public function run()
+    public function run(): void
     {
         $shell = new Shell();
         $shell->run();

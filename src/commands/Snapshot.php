@@ -18,7 +18,7 @@ class Snapshot extends MultiCommand
      *
      * @return string
      */
-    public function getUrlSegment()
+    public function getUrlSegment(): string
     {
         return 'snapshot';
     }
@@ -28,7 +28,7 @@ class Snapshot extends MultiCommand
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Handles system snapshots. Utilizes SSPak.';
     }
@@ -40,7 +40,7 @@ class Snapshot extends MultiCommand
      *
      * @return array
      */
-    public function getSubCommands()
+    public function getSubCommands(): array
     {
         return [
             'save' => [
@@ -57,7 +57,7 @@ class Snapshot extends MultiCommand
     /**
      * Loads an existing snapshot.
      */
-    public function load()
+    public function load(): void
     {
         if (!$this->environmentIsValid()) {
             return;
@@ -100,7 +100,7 @@ class Snapshot extends MultiCommand
     /**
      * Saves a snapshot to a .sspak file.
      */
-    public function save()
+    public function save(): void
     {
         if (!$this->environmentIsValid()) {
             return;
@@ -135,7 +135,7 @@ class Snapshot extends MultiCommand
      *
      * @return bool
      */
-    private function environmentIsValid()
+    private function environmentIsValid(): bool
     {
         if (Util::isWIN()) {
             echo 'The "snapshot" command is only available for Unix-based OS.';

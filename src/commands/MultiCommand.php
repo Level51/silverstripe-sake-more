@@ -17,14 +17,14 @@ abstract class MultiCommand extends Command
      *
      * @return array
      */
-    abstract public function getSubCommands();
+    abstract public function getSubCommands(): array;
 
     /**
      * Implement the run action from the Command base class and delegate it to the subCommand handler.
      *
      * @throws SakeMoreException
      */
-    public function run()
+    public function run(): void
     {
         $this->runSubCommand();
     }
@@ -34,7 +34,7 @@ abstract class MultiCommand extends Command
      *
      * @throws SakeMoreException
      */
-    public function runSubCommand()
+    public function runSubCommand(): void
     {
         $subCommand = $this->getSubCommand();
         $action = $subCommand['action'];
@@ -47,7 +47,7 @@ abstract class MultiCommand extends Command
      * @return array
      * @throws SakeMoreException
      */
-    public function getSubCommand()
+    public function getSubCommand(): array
     {
         $args = $this->getArgs();
 
@@ -85,12 +85,8 @@ abstract class MultiCommand extends Command
      *
      * @throws SakeMoreException
      */
-    private function validateSubCommand($subCommand, $requestedCommandName)
+    private function validateSubCommand(array $subCommand, string $requestedCommandName): void
     {
-        if (!is_array($subCommand)) {
-            throw new SakeMoreException('Invalid sub command configuration for "' . $requestedCommandName . '"');
-        }
-
         // Check if the sub command defines an action
         if (!isset($subCommand['action'])) {
             throw new SakeMoreException('The requested command "' . $requestedCommandName . '" needs to define an action to execute');
@@ -106,7 +102,7 @@ abstract class MultiCommand extends Command
     /**
      * Default sub-command which will be executed if the MultiCommand is called without additional arguments.
      */
-    public function showSubCommandsInfo()
+    public function showSubCommandsInfo(): void
     {
         echo PHP_EOL . 'This command requires an additional sub-command. Available commands are:' . PHP_EOL;
 

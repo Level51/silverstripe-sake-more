@@ -16,12 +16,12 @@ abstract class Command
     /**
      * @var HTTPRequest
      */
-    private $request;
+    private HTTPRequest $request;
 
     /**
      * @param HTTPRequest $request
      */
-    public function setRequest($request)
+    public function setRequest(HTTPRequest $request): void
     {
         $this->request = $request;
     }
@@ -29,7 +29,7 @@ abstract class Command
     /**
      * @return HTTPRequest
      */
-    public function getRequest()
+    public function getRequest(): HTTPRequest
     {
         return $this->request;
     }
@@ -41,7 +41,7 @@ abstract class Command
      *
      * @return array
      */
-    public function getAllArgs($withoutCurrent = true)
+    public function getAllArgs(bool $withoutCurrent = true): array
     {
         if (!$this->getRequest()) {
             return [];
@@ -61,7 +61,7 @@ abstract class Command
      *
      * @return array
      */
-    public function getArgs()
+    public function getArgs(): array
     {
         $args = $this->getAllArgs();
 
@@ -70,7 +70,7 @@ abstract class Command
         }
 
         return array_filter($args, function ($arg) {
-            return strpos($arg, '--') === false;
+            return !str_contains($arg, '--');
         });
     }
 
@@ -79,7 +79,7 @@ abstract class Command
      *
      * @return array
      */
-    public function getFlags()
+    public function getFlags(): array
     {
         $args = $this->getAllArgs();
 
@@ -88,7 +88,7 @@ abstract class Command
         }
 
         return array_filter($args, function ($arg) {
-            return strpos($arg, '--') !== false;
+            return str_contains($arg, '--');
         });
     }
 
@@ -99,9 +99,9 @@ abstract class Command
      *
      * @return bool
      */
-    public function hasFlag($flag)
+    public function hasFlag(string $flag): bool
     {
-        if (substr($flag, 0, 2) !== '--') {
+        if (!str_starts_with($flag, '--')) {
             $flag = '--' . $flag;
         }
 
@@ -113,17 +113,17 @@ abstract class Command
      *
      * @return string
      */
-    abstract public function getUrlSegment();
+    abstract public function getUrlSegment(): string;
 
     /**
      * Description of the functionality of this specific command.
      *
      * @return string
      */
-    abstract public function getDescription();
+    abstract public function getDescription(): string;
 
     /**
      * Defines the functionality of this command, this method is called on execution.
      */
-    abstract public function run();
+    abstract public function run(): void;
 }

@@ -2,6 +2,8 @@
 
 namespace Level51\SakeMore;
 
+use Exception;
+use ReflectionException;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\ClassInfo;
 
@@ -24,8 +26,10 @@ class Util
      *     Description => String,
      *     Class => String
      *   ]
+     *
+     * @throws ReflectionException
      */
-    public static function getCommands()
+    public static function getCommands(): array
     {
         $availableCommands = [];
 
@@ -49,7 +53,7 @@ class Util
                     'description' => $command->getDescription(),
                     'class'       => $commandClass,
                 ];
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -60,11 +64,12 @@ class Util
      * Get a command instance for the given url segment.
      *
      * @param string      $urlSegment Of the searched/requested command
-     * @param HTTPRequest $request The current request
+     * @param HTTPRequest | null $request The current request
      *
      * @return Command|null
+     * @throws ReflectionException
      */
-    public static function getCommandInstance($urlSegment, $request = null)
+    public static function getCommandInstance(string $urlSegment, HTTPRequest | null $request = null): Command | null
     {
         foreach (self::getCommands() as $command) {
             if ($command['urlSegment'] === $urlSegment) {
@@ -84,7 +89,7 @@ class Util
      *
      * @return bool
      */
-    public static function isWIN()
+    public static function isWIN(): bool
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
@@ -97,7 +102,7 @@ class Util
      *
      * @return bool
      */
-    public static function shellCommandExists($cmd)
+    public static function shellCommandExists($cmd): bool
     {
         $return = shell_exec(sprintf("which %s", escapeshellarg($cmd)));
 
@@ -113,9 +118,11 @@ class Util
      * @return int
      *   Exit code.
      */
-    public static function runCLI($command)
+    public static function runCLI($command): int
     {
         $pipes = [];
+
+        var_dump($command);
 
         $process = proc_open($command, [
             0 => STDIN,

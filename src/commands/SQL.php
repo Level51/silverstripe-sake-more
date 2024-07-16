@@ -17,7 +17,7 @@ class SQL extends Command
      *
      * @return string
      */
-    public function getUrlSegment()
+    public function getUrlSegment(): string
     {
         return 'sql';
     }
@@ -27,18 +27,15 @@ class SQL extends Command
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Enter SQL console';
     }
 
     /**
      * Connect to mysql interactive shell.
-     *
-     * @return string
-     * @throws SakeMoreException
      */
-    public function run()
+    public function run(): void
     {
         // Get the db connection config
         $conf = DB::getConfig();
@@ -69,6 +66,6 @@ class SQL extends Command
             $pipes,
         );
 
-        return proc_close($process);
+        proc_close($process);
     }
 }
