@@ -9,6 +9,7 @@ namespace Level51\SakeMore;
  *
  * @package Level51\SakeMore
  */
-class SakeMoreException extends \Exception {
+class SakeMoreException extends \Exception
+{
 
 }

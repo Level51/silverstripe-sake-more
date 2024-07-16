@@ -11,7 +11,8 @@ use SilverStripe\Control\HTTPRequest;
  *
  * @package Level51\SakeMore
  */
-abstract class Command {
+abstract class Command
+{
     /**
      * @var HTTPRequest
      */
@@ -20,14 +21,16 @@ abstract class Command {
     /**
      * @param HTTPRequest $request
      */
-    public function setRequest($request) {
+    public function setRequest($request)
+    {
         $this->request = $request;
     }
 
     /**
      * @return HTTPRequest
      */
-    public function getRequest() {
+    public function getRequest()
+    {
         return $this->request;
     }
 
@@ -38,13 +41,17 @@ abstract class Command {
      *
      * @return array
      */
-    public function getAllArgs($withoutCurrent = true) {
-        if (!$this->getRequest()) return [];
+    public function getAllArgs($withoutCurrent = true)
+    {
+        if (!$this->getRequest()) {
+            return [];
+        }
 
         $args = $this->getRequest()->getVars()['args'];
 
-        if ($withoutCurrent)
+        if ($withoutCurrent) {
             array_shift($args);
+        }
 
         return $args;
     }
@@ -54,10 +61,13 @@ abstract class Command {
      *
      * @return array
      */
-    public function getArgs() {
+    public function getArgs()
+    {
         $args = $this->getAllArgs();
 
-        if (empty($args)) return $args;
+        if (empty($args)) {
+            return $args;
+        }
 
         return array_filter($args, function ($arg) {
             return strpos($arg, '--') === false;
@@ -69,10 +79,13 @@ abstract class Command {
      *
      * @return array
      */
-    public function getFlags() {
+    public function getFlags()
+    {
         $args = $this->getAllArgs();
 
-        if (empty($args)) return $args;
+        if (empty($args)) {
+            return $args;
+        }
 
         return array_filter($args, function ($arg) {
             return strpos($arg, '--') !== false;
@@ -86,9 +99,11 @@ abstract class Command {
      *
      * @return bool
      */
-    public function hasFlag($flag) {
-        if (substr($flag, 0, 2) !== '--')
+    public function hasFlag($flag)
+    {
+        if (substr($flag, 0, 2) !== '--') {
             $flag = '--' . $flag;
+        }
 
         return in_array($flag, $this->getFlags());
     }

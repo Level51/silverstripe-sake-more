@@ -9,14 +9,16 @@ use SilverStripe\Control\Director;
  *
  * @package Level51\SakeMore
  */
-class Snapshot extends MultiCommand {
+class Snapshot extends MultiCommand
+{
 
     /**
      * Defines the url segment under which this command is callable.
      *
      * @return string
      */
-    public function getUrlSegment() {
+    public function getUrlSegment()
+    {
         return 'snapshot';
     }
 
@@ -25,7 +27,8 @@ class Snapshot extends MultiCommand {
      *
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return 'Handles system snapshots. Utilizes SSPak.';
     }
 
@@ -36,24 +39,28 @@ class Snapshot extends MultiCommand {
      *
      * @return array
      */
-    public function getSubCommands() {
+    public function getSubCommands()
+    {
         return [
             'save' => [
                 'description' => 'Saves a snapshot to the temp directory of your system. Use the "--db" flag to save only the database.',
-                'action'      => 'save'
+                'action'      => 'save',
             ],
             'load' => [
                 'description' => 'Loads a snapshot into the local instance. The "src" parameter specifies the .sspak file to load. CAUTION: It overwrites the database and all the assets.',
-                'action'      => 'load'
-            ]
+                'action'      => 'load',
+            ],
         ];
     }
 
     /**
      * Loads an existing snapshot.
      */
-    public function load() {
-        if (!$this->environmentIsValid()) return;
+    public function load()
+    {
+        if (!$this->environmentIsValid()) {
+            return;
+        }
 
         // Check for source
         if (!isset($_GET['src']) ||
@@ -79,8 +86,11 @@ class Snapshot extends MultiCommand {
     /**
      * Saves a snapshot to a .sspak file.
      */
-    public function save() {
-        if (!$this->environmentIsValid()) return;
+    public function save()
+    {
+        if (!$this->environmentIsValid()) {
+            return;
+        }
 
         $rootFolder = Director::baseFolder();
         $command = ['sspak save'];
@@ -91,11 +101,11 @@ class Snapshot extends MultiCommand {
         $snapshotName = implode('_', array(
             $folderName,
             $projectName,
-            date('Y-m-d-H-i-s')
+            date('Y-m-d-H-i-s'),
         ));
         $saveLocation = implode(DIRECTORY_SEPARATOR, array(
             sys_get_temp_dir(),
-            $snapshotName
+            $snapshotName,
         ));
         if ($this->hasFlag('db')) {
             $command[] = '--db';
@@ -112,7 +122,8 @@ class Snapshot extends MultiCommand {
      *
      * @return bool
      */
-    private function environmentIsValid() {
+    private function environmentIsValid()
+    {
         if (Util::isWIN()) {
             echo 'The "snapshot" command is only available for Unix-based OS.';
 

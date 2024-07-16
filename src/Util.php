@@ -10,7 +10,8 @@ use SilverStripe\Core\ClassInfo;
  *
  * @package Level51\SakeMore
  */
-class Util {
+class Util
+{
 
     /**
      * Get a list of all available commands.
@@ -24,7 +25,8 @@ class Util {
      *     Class => String
      *   ]
      */
-    public static function getCommands() {
+    public static function getCommands()
+    {
         $availableCommands = [];
 
         // Get all "Command" implementors
@@ -37,13 +39,15 @@ class Util {
             try {
                 // Skip abstract classes
                 $reflection = new \ReflectionClass($commandClass);
-                if ($reflection->isAbstract()) continue;
+                if ($reflection->isAbstract()) {
+                    continue;
+                }
 
                 $command = singleton($commandClass);
                 $availableCommands[] = [
                     'urlSegment'  => $command->getUrlSegment(),
                     'description' => $command->getDescription(),
-                    'class'       => $commandClass
+                    'class'       => $commandClass,
                 ];
             } catch (\Exception $e) {
             }
@@ -56,11 +60,12 @@ class Util {
      * Get a command instance for the given url segment.
      *
      * @param string      $urlSegment Of the searched/requested command
-     * @param HTTPRequest $request    The current request
+     * @param HTTPRequest $request The current request
      *
      * @return Command|null
      */
-    public static function getCommandInstance($urlSegment, $request = null) {
+    public static function getCommandInstance($urlSegment, $request = null)
+    {
         foreach (self::getCommands() as $command) {
             if ($command['urlSegment'] === $urlSegment) {
                 $instance = singleton($command['class']);
@@ -79,7 +84,8 @@ class Util {
      *
      * @return bool
      */
-    public static function isWIN() {
+    public static function isWIN()
+    {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
@@ -91,7 +97,8 @@ class Util {
      *
      * @return bool
      */
-    public static function shellCommandExists($cmd) {
+    public static function shellCommandExists($cmd)
+    {
         $return = shell_exec(sprintf("which %s", escapeshellarg($cmd)));
 
         return !empty($return);
@@ -106,14 +113,15 @@ class Util {
      * @return int
      *   Exit code.
      */
-    public static function runCLI($command) {
+    public static function runCLI($command)
+    {
         $pipes = [];
 
         $process = proc_open($command, [
             0 => STDIN,
             1 => STDOUT,
-            2 => STDERR
-        ], $pipes);
+            2 => STDERR,
+        ],                   $pipes);
 
         $status = proc_get_status($process);
         $exit_code = proc_close($process);
