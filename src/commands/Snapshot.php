@@ -3,6 +3,7 @@
 namespace Level51\SakeMore;
 
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Manifest\ModuleManifest;
 
 /**
  * Command wrapping around SSPAK to save or load snapshots.
@@ -83,6 +84,19 @@ class Snapshot extends MultiCommand
         echo "The snapshot \"" . array_reverse(explode(DIRECTORY_SEPARATOR, $src))[0] . "\" was loaded. You might have to clear the caches.";
     }
 
+    private function getProjectName(): string
+    {
+        if ($project = ModuleManifest::config()->get('project')) {
+            return $project;
+        }
+
+        if (isset($GLOBALS['project'])) {
+            return $GLOBALS['project'];
+        }
+
+        return 'mysite';
+    }
+
     /**
      * Saves a snapshot to a .sspak file.
      */
@@ -97,10 +111,9 @@ class Snapshot extends MultiCommand
 
         // Prepare file name and save location
         $folderName = array_reverse(explode(DIRECTORY_SEPARATOR, $rootFolder))[0];
-        $projectName = $GLOBALS['project'];
         $snapshotName = implode('_', array(
             $folderName,
-            $projectName,
+            $this->getProjectName(),
             date('Y-m-d-H-i-s'),
         ));
         $saveLocation = implode(DIRECTORY_SEPARATOR, array(
