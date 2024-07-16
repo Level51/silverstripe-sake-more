@@ -75,7 +75,7 @@ class Snapshot extends MultiCommand
         $command[] = 'rm -rf public/assets;';
 
         // Build sspak load command
-        $command[] = 'sspak';
+        $command[] = 'vendor/bin/sspak';
         $src = $_GET['src'];
         $command[] = "load {$src} " . Director::baseFolder();
 
@@ -107,7 +107,7 @@ class Snapshot extends MultiCommand
         }
 
         $rootFolder = Director::baseFolder();
-        $command = ['sspak save'];
+        $command = ['vendor/bin/sspak save'];
 
         // Prepare file name and save location
         $folderName = array_reverse(explode(DIRECTORY_SEPARATOR, $rootFolder))[0];
@@ -143,7 +143,7 @@ class Snapshot extends MultiCommand
             return false;
         }
 
-        if (!Util::shellCommandExists('sspak')) {
+        if (!Util::shellCommandExists('vendor/bin/sspak')) {
             echo '"sspak" is not available. Check "https://github.com/silverstripe/sspak#installation" for an installation guide.';
 
             return false;
