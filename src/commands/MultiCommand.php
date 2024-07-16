@@ -7,7 +7,8 @@ namespace Level51\SakeMore;
  *
  * @package Level51\SakeMore
  */
-abstract class MultiCommand extends Command {
+abstract class MultiCommand extends Command
+{
 
     /**
      * Get a list of available sub commands.
@@ -16,14 +17,15 @@ abstract class MultiCommand extends Command {
      *
      * @return array
      */
-    abstract public function getSubCommands();
+    abstract public function getSubCommands(): array;
 
     /**
      * Implement the run action from the Command base class and delegate it to the subCommand handler.
      *
      * @throws SakeMoreException
      */
-    public function run() {
+    public function run(): void
+    {
         $this->runSubCommand();
     }
 
@@ -32,7 +34,8 @@ abstract class MultiCommand extends Command {
      *
      * @throws SakeMoreException
      */
-    public function runSubCommand() {
+    public function runSubCommand(): void
+    {
         $subCommand = $this->getSubCommand();
         $action = $subCommand['action'];
         $this->$action();
@@ -44,24 +47,28 @@ abstract class MultiCommand extends Command {
      * @return array
      * @throws SakeMoreException
      */
-    public function getSubCommand() {
+    public function getSubCommand(): array
+    {
         $args = $this->getArgs();
 
         $requestedCommandName = '';
-        if (!empty($args))
+        if (!empty($args)) {
             $requestedCommandName = $args[0];
+        }
 
         $availableSubCommands = $this->getSubCommands();
 
         // Add showSubCommandsInfo as default action when called without sub-command argument
-        if ($requestedCommandName === '' && !isset($availableSubCommands[$requestedCommandName]))
+        if ($requestedCommandName === '' && !isset($availableSubCommands[$requestedCommandName])) {
             $availableSubCommands[''] = [
-                'action' => 'showSubCommandsInfo'
+                'action' => 'showSubCommandsInfo',
             ];
+        }
 
         // Check if it's an available command
-        if (!isset($availableSubCommands[$requestedCommandName]))
+        if (!isset($availableSubCommands[$requestedCommandName])) {
             throw new SakeMoreException('The requested sub command "' . $requestedCommandName . '" is not available within "' . $this->getAllArgs(false)[0] . '"');
+        }
 
         // Get and validate the sub command config
         $subCommand = $availableSubCommands[$requestedCommandName];
@@ -73,29 +80,30 @@ abstract class MultiCommand extends Command {
     /**
      * Validate if the given sub command is valid / executable.
      *
-     * @param array  $subCommand           The sub command config
+     * @param array  $subCommand The sub command config
      * @param string $requestedCommandName The name of the sub command extracted from the request
      *
      * @throws SakeMoreException
      */
-    private function validateSubCommand($subCommand, $requestedCommandName) {
-        if (!is_array($subCommand))
-            throw new SakeMoreException('Invalid sub command configuration for "' . $requestedCommandName . '"');
-
+    private function validateSubCommand(array $subCommand, string $requestedCommandName): void
+    {
         // Check if the sub command defines an action
-        if (!isset($subCommand['action']))
+        if (!isset($subCommand['action'])) {
             throw new SakeMoreException('The requested command "' . $requestedCommandName . '" needs to define an action to execute');
+        }
 
         // Get the action name and check if the method actually exists
         $action = $subCommand['action'];
-        if (!method_exists($this, $action))
+        if (!method_exists($this, $action)) {
             throw new SakeMoreException('The action "' . $action . '" is not defined on ' . get_called_class());
+        }
     }
 
     /**
      * Default sub-command which will be executed if the MultiCommand is called without additional arguments.
      */
-    public function showSubCommandsInfo() {
+    public function showSubCommandsInfo(): void
+    {
         echo PHP_EOL . 'This command requires an additional sub-command. Available commands are:' . PHP_EOL;
 
         foreach ($this->getSubCommands() as $key => $config) {

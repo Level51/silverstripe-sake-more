@@ -11,23 +11,26 @@ use SilverStripe\Control\HTTPRequest;
  *
  * @package Level51\SakeMore
  */
-abstract class Command {
+abstract class Command
+{
     /**
      * @var HTTPRequest
      */
-    private $request;
+    private HTTPRequest $request;
 
     /**
      * @param HTTPRequest $request
      */
-    public function setRequest($request) {
+    public function setRequest(HTTPRequest $request): void
+    {
         $this->request = $request;
     }
 
     /**
      * @return HTTPRequest
      */
-    public function getRequest() {
+    public function getRequest(): HTTPRequest
+    {
         return $this->request;
     }
 
@@ -38,13 +41,17 @@ abstract class Command {
      *
      * @return array
      */
-    public function getAllArgs($withoutCurrent = true) {
-        if (!$this->getRequest()) return [];
+    public function getAllArgs(bool $withoutCurrent = true): array
+    {
+        if (!$this->getRequest()) {
+            return [];
+        }
 
         $args = $this->getRequest()->getVars()['args'];
 
-        if ($withoutCurrent)
+        if ($withoutCurrent) {
             array_shift($args);
+        }
 
         return $args;
     }
@@ -54,13 +61,16 @@ abstract class Command {
      *
      * @return array
      */
-    public function getArgs() {
+    public function getArgs(): array
+    {
         $args = $this->getAllArgs();
 
-        if (empty($args)) return $args;
+        if (empty($args)) {
+            return $args;
+        }
 
         return array_filter($args, function ($arg) {
-            return strpos($arg, '--') === false;
+            return !str_contains($arg, '--');
         });
     }
 
@@ -69,13 +79,16 @@ abstract class Command {
      *
      * @return array
      */
-    public function getFlags() {
+    public function getFlags(): array
+    {
         $args = $this->getAllArgs();
 
-        if (empty($args)) return $args;
+        if (empty($args)) {
+            return $args;
+        }
 
         return array_filter($args, function ($arg) {
-            return strpos($arg, '--') !== false;
+            return str_contains($arg, '--');
         });
     }
 
@@ -86,9 +99,11 @@ abstract class Command {
      *
      * @return bool
      */
-    public function hasFlag($flag) {
-        if (substr($flag, 0, 2) !== '--')
+    public function hasFlag(string $flag): bool
+    {
+        if (!str_starts_with($flag, '--')) {
             $flag = '--' . $flag;
+        }
 
         return in_array($flag, $this->getFlags());
     }
@@ -98,17 +113,17 @@ abstract class Command {
      *
      * @return string
      */
-    abstract public function getUrlSegment();
+    abstract public function getUrlSegment(): string;
 
     /**
      * Description of the functionality of this specific command.
      *
      * @return string
      */
-    abstract public function getDescription();
+    abstract public function getDescription(): string;
 
     /**
      * Defines the functionality of this command, this method is called on execution.
      */
-    abstract public function run();
+    abstract public function run(): void;
 }

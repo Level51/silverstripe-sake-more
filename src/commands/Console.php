@@ -11,14 +11,16 @@ use Psy\Shell;
  *
  * @package Level51\SakeMore
  */
-class Console extends Command {
+class Console extends Command
+{
 
     /**
      * Defines the url segment under which this command is callable.
      *
      * @return string
      */
-    public function getUrlSegment() {
+    public function getUrlSegment(): string
+    {
         return 'console';
     }
 
@@ -27,14 +29,16 @@ class Console extends Command {
      *
      * @return string
      */
-    public function getDescription() {
+    public function getDescription(): string
+    {
         return 'Enter PsySH console';
     }
 
     /**
      * Start PsySH shell.
      */
-    public function run() {
+    public function run(): void
+    {
         $shell = new Shell();
         $shell->run();
     }

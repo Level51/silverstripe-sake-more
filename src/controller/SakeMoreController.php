@@ -13,12 +13,14 @@ use SilverStripe\Control\Director;
  *
  * @package Level51\SakeMore
  */
-class SakeMoreController extends Controller {
-
-    public function index() {
+class SakeMoreController extends Controller
+{
+    public function index()
+    {
         // Enable for cli only
-        if (!Director::is_cli())
+        if (!Director::is_cli()) {
             return $this->httpError(404);
+        }
 
         $request = $this->getRequest();
         $getVars = $request->getVars();
@@ -49,7 +51,8 @@ class SakeMoreController extends Controller {
     /**
      * Print module info including a list of all available commands.
      */
-    private function printInfo() {
+    private function printInfo()
+    {
         echo PHP_EOL . 'SakeMore development commands' . PHP_EOL . '------------------------' . PHP_EOL;
         echo 'Available commands:' . PHP_EOL;
 

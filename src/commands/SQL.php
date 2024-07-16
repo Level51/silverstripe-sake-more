@@ -9,14 +9,16 @@ use SilverStripe\ORM\DB;
  *
  * @package Level51\SakeMore
  */
-class SQL extends Command {
+class SQL extends Command
+{
 
     /**
      * Defines the url segment under which this command is callable.
      *
      * @return string
      */
-    public function getUrlSegment() {
+    public function getUrlSegment(): string
+    {
         return 'sql';
     }
 
@@ -25,17 +27,16 @@ class SQL extends Command {
      *
      * @return string
      */
-    public function getDescription() {
+    public function getDescription(): string
+    {
         return 'Enter SQL console';
     }
 
     /**
      * Connect to mysql interactive shell.
-     *
-     * @return string
-     * @throws SakeMoreException
      */
-    public function run() {
+    public function run(): void
+    {
         // Get the db connection config
         $conf = DB::getConfig();
 
@@ -43,14 +44,16 @@ class SQL extends Command {
         $cmd = sprintf('mysql -u"%s" -p"%s"', $conf['username'], $conf['password']);
 
         // Check server/host, add database name and host if necessary (non localhost)
-        if (in_array($conf['server'], ['localhost', '127.0.0.1']))
+        if (in_array($conf['server'], ['localhost', '127.0.0.1'])) {
             $cmd .= sprintf(' %s', $conf['database']);
-        else
+        } else {
             $cmd .= sprintf(' -h"%s" -D"%s"', $conf['server'], $conf['database']);
+        }
 
         // Add port if set
-        if (isset($conf['port']))
+        if (isset($conf['port'])) {
             $cmd .= sprintf(' -P%s', $conf['port']);
+        }
 
         // Execute
         $process = proc_open(
@@ -58,11 +61,11 @@ class SQL extends Command {
             [
                 0 => STDIN,
                 1 => STDOUT,
-                2 => STDERR
+                2 => STDERR,
             ],
-            $pipes
+            $pipes,
         );
 
-        return proc_close($process);
+        proc_close($process);
     }
 }
