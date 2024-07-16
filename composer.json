@@ -18,6 +18,7 @@
   "require": {
     "php": ">=8",
     "silverstripe/framework": "^5.0",
+    "silverstripe/sspak": "*",
     "silverstripe/vendor-plugin": "^2",
     "psy/psysh": "^v0.12.3"
   },
