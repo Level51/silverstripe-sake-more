@@ -1,8 +1,8 @@
 {
   "name": "level51/silverstripe-sake-more",
-  "version": "2.1.0",
-  "time": "2024-07-16",
-  "description": "SakeMore module for SilverStripe 5",
+  "version": "1.1.0",
+  "time": "2025-08-19",
+  "description": "SakeMore module for SilverStripe 4",
   "keywords": [
     "silverstripe",
     "psysh"
@@ -16,11 +16,11 @@
     }
   ],
   "require": {
-    "php": ">=8",
-    "silverstripe/framework": "^5.0",
+    "php": ">=7.4",
+    "silverstripe/framework": "^4.0",
     "silverstripe/sspak": "*",
-    "silverstripe/vendor-plugin": "^2",
-    "psy/psysh": "^v0.12.3"
+    "silverstripe/vendor-plugin": "^1 | ^2",
+    "psy/psysh": "^v0.12.10"
   },
   "minimum-stability": "dev",
   "autoload": {
